@@ -51,23 +51,12 @@ export function createAccessMiddleware(options: AccessMiddlewareOptions) {
     const teamDomain = c.env.CF_ACCESS_TEAM_DOMAIN;
     const expectedAud = c.env.CF_ACCESS_AUD;
 
-    // Check if CF Access is configured
+    // If CF Access is not configured, skip auth (allow access)
+    // The worker still runs on Cloudflare - this just skips the optional Access auth layer
     if (!teamDomain || !expectedAud) {
-      if (type === 'json') {
-        return c.json({
-          error: 'Cloudflare Access not configured',
-          hint: 'Set CF_ACCESS_TEAM_DOMAIN and CF_ACCESS_AUD environment variables',
-        }, 500);
-      } else {
-        return c.html(`
-          <html>
-            <body>
-              <h1>Admin UI Not Configured</h1>
-              <p>Set CF_ACCESS_TEAM_DOMAIN and CF_ACCESS_AUD environment variables.</p>
-            </body>
-          </html>
-        `, 500);
-      }
+      console.log('[AUTH] Cloudflare Access not configured, skipping auth');
+      c.set('accessUser', { email: 'anonymous@local', name: 'Anonymous' });
+      return next();
     }
 
     // Get JWT
