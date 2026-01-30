@@ -225,7 +225,7 @@ if (isGemini) {
     config.models.providers = config.models.providers || {};
     config.models.providers.openai = {
         baseUrl: baseUrl,
-        api: 'openai-responses',
+        api: 'openai-completions',
         models: [
             { id: 'google-ai-studio/gemini-2.5-pro', name: 'Gemini 2.5 Pro', contextWindow: 1000000 },
             { id: 'google-ai-studio/gemini-2.5-flash', name: 'Gemini 2.5 Flash', contextWindow: 1000000 },
@@ -246,7 +246,7 @@ if (isGemini) {
     config.models.providers = config.models.providers || {};
     config.models.providers.openai = {
         baseUrl: baseUrl,
-        api: 'openai-responses',
+        api: 'openai-completions',
         models: [
             { id: 'gpt-5.2', name: 'GPT-5.2', contextWindow: 200000 },
             { id: 'gpt-5', name: 'GPT-5', contextWindow: 200000 },
